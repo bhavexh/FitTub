@@ -1,40 +1,40 @@
 import React, { useEffect, useState } from "react";
 import { Box, Button, Stack, TextField, Typography } from "@mui/material";
 
-import { excerciseOptions, fetchData } from "../utils/fetchData";
+import { exerciseOptions, fetchData } from "../utils/fetchData";
 import HorizontalScrollbar from "./HorizontalScrollbar";
 
-const SearchExcercises = ({ SetExcercises, bodyPart, setBodyPart }) => {
+const SearchExercises = ({ setExercises, bodyPart, setBodyPart }) => {
   const [search, setSearch] = useState("");
   
   const [bodyParts, SetBodyParts] = useState([]);
 
   useEffect(() => {
-    const fetchExcerciseData = async () => {
+    const fetchExerciseData = async () => {
       const bodyPartsData = await fetchData(
         "https://exercisedb.p.rapidapi.com/exercises/bodyPartList",
-        excerciseOptions
+        exerciseOptions
       );
       SetBodyParts(["all", ...bodyPartsData]);
     };
-    fetchExcerciseData();
+    fetchExerciseData();
   }, []);
 
   const handleSearch = async () => {
     if (search) {
-      const excerciseData = await fetchData(
+      const exerciseData = await fetchData(
         "https://exercisedb.p.rapidapi.com/exercises",
-        excerciseOptions
+        exerciseOptions
       );
-      const searchedExcercises = excerciseData.filter(
-        (excercise) =>
-          excercise.name.toLowerCase().include(search) ||
-          excercise.target.toLowerCase().include(search) ||
-          excercise.equipment.toLowerCase().include(search) ||
-          excercise.bodypart.toLowerCase().include(search)
+      const searchedExercises = exerciseData.filter(
+        (exercise) =>
+          exercise.name.toLowerCase().includes(search) ||
+          exercise.target.toLowerCase().includes(search) ||
+          exercise.equipment.toLowerCase().includes(search) ||
+          exercise.bodyPart.toLowerCase().includes(search)
       );
       setSearch("");
-      SetExcercises(searchedExcercises);
+      setExercises(searchedExercises);
     }
   };
 
@@ -90,4 +90,4 @@ const SearchExcercises = ({ SetExcercises, bodyPart, setBodyPart }) => {
   );
 };
 
-export default SearchExcercises;
+export default SearchExercises;
